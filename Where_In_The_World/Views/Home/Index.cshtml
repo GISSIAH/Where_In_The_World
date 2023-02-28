@@ -1,7 +1,64 @@
-﻿@{
+﻿@model IEnumerable<CountryModel>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-6xl font-bold lg:text-sm">
-    <p>Hi IM TAILWIND</p>
+
+<div class="p-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3" >
+    @foreach (var country in Model)
+    {
+        <a  class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <div class="flex flex-col gap-1">
+                <img class="h-36 w-full" src="@country.flags["png"]"  />
+                <div class="flex flex-col gap-1">
+                    <p class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        @Html.DisplayFor(modelItem=> country.name.official)
+                     </p>
+                     <div>
+                        <p class="text-lg  text-gray-900 dark:text-white flex flex-row">Capitals : <span>
+                                @foreach (var capital in country.capital)
+                                {
+                                    <p class="text-lg  text-gray-900 dark:text-white">@Html.DisplayFor(capitalItem=>capital)</p>
+                                }
+                        </span></p>
+                        
+                        
+                     </div>
+                    <p class="text-lg  text-gray-900 dark:text-white">
+                        Region:
+                        <span>@Html.DisplayFor(modelItem=> country.region)</span>
+                    </p>
+                    <p class="text-lg  text-gray-900 dark:text-white">
+                        Population:
+                        <span>@Html.DisplayFor(modelItem=> country.population)</span>
+                    </p>
+
+                </div>
+            </div>
+            
+        </a>
+    }
 </div>
+
+<div class="flex flex-row gap-2 justify-center">
+    @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {page = page}), new X.PagedList.Web.Common.PagedListRenderOptions {
+    LiElementClasses = new string[] {"px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"},
+    ContainerDivClasses = new string[]{"flex justify-center"},
+    ActiveLiElementClass = "px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
+    UlElementClasses = new string[]{"grid grid-cols-2 justify-center items-center place-items-center gap-1 md:flex md:justify-center"},
+    PageClasses = new string[] { "" },
+    LinkToFirstPageFormat = "First",
+    LinkToPreviousPageFormat = "Previous",
+    LinkToNextPageFormat = "Next",
+    LinkToLastPageFormat = "Last",
+    MaximumPageNumbersToDisplay = 3,
+    DisplayLinkToIndividualPages= false,
+    DisplayPageCountAndCurrentLocation= true
+    })
+</div>
+

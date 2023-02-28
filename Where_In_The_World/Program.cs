@@ -1,7 +1,11 @@
+using Where_In_The_World.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ICountryService, CountryService>();
 
 var app = builder.Build();
 
