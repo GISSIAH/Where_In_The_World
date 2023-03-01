@@ -29,12 +29,27 @@
     </div>
 
     <script>
-        function switchChange(e){
-            const chkbox = document.getElementById("switch").checked;
-            if(chkbox){
+        let darkMode = localStorage.getItem("darkMode");
+        if(darkMode != null){
+            if(darkMode == "on"){
+                document.getElementById("switch").checked = true;
                 document.documentElement.classList.add('dark')
             }
             else{
+                document.getElementById("switch").checked = false;
+                document.documentElement.classList.remove('dark')
+            }
+        }
+
+
+        function switchChange(e){
+            const chkbox = document.getElementById("switch").checked;
+            if(chkbox){
+                localStorage.setItem("darkMode","on")
+                document.documentElement.classList.add('dark')
+            }
+            else{
+                localStorage.setItem("darkMode", "off")
                 document.documentElement.classList.remove('dark')
             }
             

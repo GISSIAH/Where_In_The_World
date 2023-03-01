@@ -19,7 +19,7 @@
                 @Html.Hidden("region", ViewData["region"])
                 <input type="search" name="countrySearch" value="@ViewData["countrySearch"]" class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Malawi" />
 
-                @if ((bool)ViewData["searchActive"])
+                @if (ViewData["searchActive"] != null && (bool)ViewData["searchActive"])
                 {
                     <button class="bg-red-500 text-white text-center rounded-md px-3 py-1 hover:bg-red-400 cursor-pointer"><a asp-action="Index">Clear</a></button>
                 }
@@ -105,7 +105,7 @@
         <div class="p-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
             @foreach (var country in Model)
             {
-                <a class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <a asp-controller="Home" asp-action="Details" asp-route-id="@country.name.official" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                     <div class="flex flex-col gap-1">
                         <img class="h-36 w-full" src="@country.flags["png"]" />
                         <div class="flex flex-col gap-1">
@@ -146,7 +146,6 @@
             ContainerDivClasses = new string[]{"flex justify-center"},
             ActiveLiElementClass = "px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
             UlElementClasses = new string[]{"grid grid-cols-2 justify-center items-center place-items-center gap-1 md:flex md:justify-center"},
-            PageClasses = new string[] { "" },
             LinkToFirstPageFormat = "First",
             LinkToPreviousPageFormat = "Previous",
             LinkToNextPageFormat = "Next",

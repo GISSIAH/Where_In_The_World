@@ -7,5 +7,7 @@ namespace Where_In_The_World.Services
         List<CountryModel> GetCountries();
 
         List<CountryModel>? SearchCountries(string name);
+
+        ExtendedCountryModel GetCountry(string name);
     }
 }

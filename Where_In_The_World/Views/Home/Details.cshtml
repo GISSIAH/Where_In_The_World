@@ -1,0 +1,45 @@
+﻿@model ExtendedCountryModel;
+
+
+<div class="flex flex-col p-4 gap-3">
+    <img class="h-32 w-full" src="@Model.flags["png"]" />
+    <p class="text-3xl font-bold tracking-wider text-gray-800 dark:text-white">@Html.DisplayFor(m=>m.name.official)</p>
+    <p class="text-xl font-semibold text-gray-700">
+        @Html.DisplayFor(m=>m.population) Population
+    </p>
+    <p class="text-lg text-gray-700">
+        Region: <span>@Html.DisplayFor(m=>m.region)</span>
+    </p>
+    <p class="text-lg text-gray-700">
+        Capital: <span>@Model.capital.First()</span>
+    </p>
+    <div class="flex flex-col gap-1">
+        <p class="text-lg font-semibold text-gray-700">Currencies</p>
+        <ul class="">
+            @foreach (var cr in Model.currencies)
+            {
+                <li class="text-md text-gray-700">* @cr.Value.name (@cr.Value.symbol)</li>
+            }
+        </ul>
+    </div>
+    <div class="flex flex-col gap-1">
+        <p class="text-lg font-semibold text-gray-700">Languages</p>
+        <ul class="">
+            @foreach (var l in Model.languages)
+            {
+                <li class="text-md text-gray-700">* @l.Value</li>
+            }
+        </ul>
+    </div>
+    <div class="flex flex-col gap-1">
+        <p class="text-lg font-semibold text-gray-700">Border Countries</p>
+        <ul class="">
+            @foreach (var bc in Model.borders)
+            {
+                <li class="text-md text-gray-700">* @bc</li>
+            }
+        </ul>
+    </div>
+    
+
+</div>

@@ -17,14 +17,14 @@ namespace Where_In_The_World.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string countrySearch,string region, int? page)
+        public IActionResult Index(string countrySearch, string region, int? page)
         {
-            
+
             var allCountries = _countryService.GetCountries();
             int countryListSize = 8;
             int pageNumber = (page ?? 1);
 
-            
+
             if (countrySearch != null)
             {
                 ViewData["countrySearch"] = countrySearch;
@@ -34,7 +34,7 @@ namespace Where_In_The_World.Controllers
                 if (region != null)
                 {
                     ViewData["region"] = region;
-                    if(region == "All")
+                    if (region == "All")
                     {
                         return View(searchCountries.ToPagedList(pageNumber, countryListSize));
                     }
@@ -43,13 +43,13 @@ namespace Where_In_The_World.Controllers
                         var regionCountries = searchCountries.Where(c => c.region == region);
                         return View(regionCountries.ToPagedList(pageNumber, countryListSize));
                     }
-                    
+
 
                 }
                 else
                 {
                     return View(searchCountries.ToPagedList(pageNumber, countryListSize));
-                }     
+                }
             }
             else
             {
@@ -69,16 +69,32 @@ namespace Where_In_The_World.Controllers
                 }
                 else
                 {
-                    
+
                     return View(allCountries.ToPagedList(pageNumber, countryListSize));
                 }
-                
+
             }
 
 
-            
+
         }
 
+
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            var country = _countryService.GetCountry(id);
+
+            if (country != null)
+            {
+                return View(country);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -65,6 +65,63 @@ namespace Where_In_The_World.Services
 
         }
 
+        public ExtendedCountryModel GetCountry(string name)
+        {
+            var response = _httpClient.GetAsync($"https://restcountries.com/v3.1/name/{name}").Result;
+
+            var countryObjects = response.Content.ReadFromJsonAsync<IEnumerable<ExtendedCountryModel>>().Result;
+            var c = countryObjects.FirstOrDefault();
+  
+            var country = new ExtendedCountryModel() { population = c.population, region = c.region, currencies=c.currencies };
+
+            if (c.flags != null)
+            {
+                country.flags = c.flags;
+            }
+
+            if (c.name.nativeName != null)
+            {
+                country.name = c.name;
+            }
+            else
+            {
+                country.name = new Name() { common = c.name.common, official = c.name.official, nativeName = null };
+            }
+
+            if (c.capital != null)
+            {
+                country.capital = c.capital;
+
+            }
+            else
+            {
+                country.capital = null;
+            }
+
+            if(c.languages != null)
+            {
+                country.languages = c.languages;
+            }
+            else
+            {
+                country.languages = null;
+            }
+
+            if(c.borders != null)
+            {
+                country.borders = c.borders;
+            }
+            else
+            {
+                country.borders = new List<string>();
+            }
+
+
+
+            return country;
+
+        }
+
         public List<CountryModel>? SearchCountries(string name)
         {
             List<CountryModel> countryList = new List<CountryModel>();
@@ -113,5 +170,7 @@ namespace Where_In_The_World.Services
 
             return countryList;
         }
+    
+        
     }
 }
