@@ -17,26 +17,62 @@ namespace Where_In_The_World.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string countrySearch, int? page)
+        public IActionResult Index(string countrySearch,string region, int? page)
         {
+            
             var allCountries = _countryService.GetCountries();
             int countryListSize = 8;
             int pageNumber = (page ?? 1);
 
+            
             if (countrySearch != null)
             {
-
                 ViewData["countrySearch"] = countrySearch;
                 ViewData["searchActive"] = true;
                 var searchCountries = _countryService.SearchCountries(countrySearch);
-                
 
-                return View(searchCountries.ToPagedList(pageNumber, countryListSize));
+                if (region != null)
+                {
+                    ViewData["region"] = region;
+                    if(region == "All")
+                    {
+                        return View(searchCountries.ToPagedList(pageNumber, countryListSize));
+                    }
+                    else
+                    {
+                        var regionCountries = searchCountries.Where(c => c.region == region);
+                        return View(regionCountries.ToPagedList(pageNumber, countryListSize));
+                    }
+                    
+
+                }
+                else
+                {
+                    return View(searchCountries.ToPagedList(pageNumber, countryListSize));
+                }     
             }
             else
             {
                 ViewData["searchActive"] = false;
-                return View(allCountries.ToPagedList(pageNumber, countryListSize));
+                if (region != null)
+                {
+                    ViewData["region"] = region;
+                    if (region == "All")
+                    {
+                        return View(allCountries.ToPagedList(pageNumber, countryListSize));
+                    }
+                    else
+                    {
+                        var regionCountries = allCountries.Where(c => c.region == region);
+                        return View(regionCountries.ToPagedList(pageNumber, countryListSize));
+                    }
+                }
+                else
+                {
+                    
+                    return View(allCountries.ToPagedList(pageNumber, countryListSize));
+                }
+                
             }
 
 

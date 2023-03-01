@@ -10,20 +10,92 @@
 }
 
 <form method="get" asp-action="Index" class="flex flex-col gap-2 mt-2 p-4">
-        <p class="text-md dark:text-white">
+    <p class="text-md font-semibold  text-gray-700 dark:text-white">
             Search Country
         </p>
         <div class="flex flex-row gap-1">
+        @Html.Hidden("region", ViewData["region"])
         <input type="search" name="countrySearch" value="@ViewData["countrySearch"]" class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Malawi" />
-        <button type="submit" class="bg-blue-400 text-white rounded-md px-3 py-1 hover:bg-blue-300 cursor-pointer" >Search</button>
-
+        
         @if ((bool)ViewData["searchActive"])
         {
             <button class="bg-red-500 text-white text-center rounded-md px-3 py-1 hover:bg-red-400 cursor-pointer"><a asp-action="Index">Clear</a></button>
         }
-        </div>
+        else{
+            <button type="submit" class="bg-blue-400 text-white rounded-md px-3 py-1 hover:bg-blue-300 cursor-pointer">Search</button>
+        }
         
+        </div>    
 </form>
+
+<form asp-action="Index" method="get" class="flex flex-col gap-1 p-4">
+    @Html.Hidden("countrySearch", ViewData["countrySearch"])
+   
+    <p class="text-md font-semibold  text-gray-700 dark:text-white">Filter By Region</p>
+    <div class="flex gap-2">
+
+        <select name="region" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-72 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            @if ((string)ViewData["region"] == "All")
+            {
+                <option value="All" selected>All</option>
+            }
+            else
+            {
+                <option value="All">All</option>
+            }
+
+            @if ((string)ViewData["region"] == "Africa")
+            {
+                <option value="Africa" selected>Africa</option>
+            }
+            else
+            {
+                <option value="Africa">Africa</option>
+            }
+
+            @if ((string)ViewData["region"] == "Americas")
+            {
+                <option value="Americas" selected>Americas</option>
+            }
+            else
+            {
+                <option value="Americas">Americas</option>
+            }
+
+            @if ((string)ViewData["region"] == "Asia")
+            {
+                <option value="Asia" selected>Asia</option>
+            }
+            else
+            {
+                <option value="Asia">Asia</option>
+            }
+
+            @if ((string)ViewData["region"] == "Europe")
+            {
+                <option value="Europe" selected>Europe</option>
+            }
+            else
+            {
+                <option value="Europe">Europe</option>
+            }
+
+            @if ((string)ViewData["region"] == "Oceania")
+            {
+                <option value="Oceania" selected>Oceania</option>
+            }
+            else
+            {
+                <option value="Oceania">Oceania</option>
+            }
+
+        </select>
+        <button type="submit" class="border border-blue-400 rounded-md px-3 py-1 hover:bg-blue-50 cursor-pointer">Apply</button>
+    </div>
+
+</form>
+
+
          
 <div class="p-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3" >
     @foreach (var country in Model)
@@ -62,7 +134,7 @@
 </div>
 
 <div class="flex flex-row gap-2 justify-center">
-    @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {page = page,countrySearch=ViewData["countrySearch"]}), new X.PagedList.Web.Common.PagedListRenderOptions {
+    @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {page = page,countrySearch=ViewData["countrySearch"], region=ViewData["region"]}), new X.PagedList.Web.Common.PagedListRenderOptions {
     LiElementClasses = new string[] {"px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"},
     ContainerDivClasses = new string[]{"flex justify-center"},
     ActiveLiElementClass = "px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
