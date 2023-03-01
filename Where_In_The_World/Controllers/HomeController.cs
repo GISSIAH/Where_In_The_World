@@ -16,21 +16,34 @@ namespace Where_In_The_World.Controllers
             _countryService = countryService;
         }
 
-        public IActionResult Index(int? page)
+        [HttpGet]
+        public IActionResult Index(string countrySearch, int? page)
         {
-            var countries = _countryService.GetCountries();
-  
-
+            var allCountries = _countryService.GetCountries();
             int countryListSize = 8;
             int pageNumber = (page ?? 1);
-            return View(countries.ToPagedList(pageNumber, countryListSize));
-        
+
+            if (countrySearch != null)
+            {
+
+                ViewData["countrySearch"] = countrySearch;
+                ViewData["searchActive"] = true;
+                var searchCountries = _countryService.SearchCountries(countrySearch);
+                
+
+                return View(searchCountries.ToPagedList(pageNumber, countryListSize));
+            }
+            else
+            {
+                ViewData["searchActive"] = false;
+                return View(allCountries.ToPagedList(pageNumber, countryListSize));
+            }
+
+
+            
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
