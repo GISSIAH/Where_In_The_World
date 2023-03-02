@@ -20,78 +20,94 @@ namespace Where_In_The_World.Controllers
         public IActionResult Index(string countrySearch, string region, int? page)
         {
 
-            var allCountries = _countryService.GetCountries();
+            
             int countryListSize = 8;
             int pageNumber = (page ?? 1);
 
-
-            if (countrySearch != null)
+            try
             {
-                ViewData["countrySearch"] = countrySearch;
-                ViewData["searchActive"] = true;
-                var searchCountries = _countryService.SearchCountries(countrySearch);
-                if (region != null)
+                var allCountries = _countryService.GetCountries();
+                if (countrySearch != null)
                 {
-                    ViewData["region"] = region;
-                    if (region == "All")
+                    ViewData["countrySearch"] = countrySearch;
+                    ViewData["searchActive"] = true;
+                    var searchCountries = _countryService.SearchCountries(countrySearch);
+                    if (region != null)
+                    {
+                        ViewData["region"] = region;
+                        if (region == "All")
+                        {
+                            return View(searchCountries.ToPagedList(pageNumber, countryListSize));
+                        }
+                        else
+                        {
+                            var regionCountries = searchCountries.Where(c => c.region == region);
+                            return View(regionCountries.ToPagedList(pageNumber, countryListSize));
+                        }
+
+
+                    }
+                    else
                     {
                         return View(searchCountries.ToPagedList(pageNumber, countryListSize));
                     }
-                    else
-                    {
-                        var regionCountries = searchCountries.Where(c => c.region == region);
-                        return View(regionCountries.ToPagedList(pageNumber, countryListSize));
-                    }
-
-
                 }
                 else
                 {
-                    return View(searchCountries.ToPagedList(pageNumber, countryListSize));
-                }
-            }
-            else
-            {
-                ViewData["searchActive"] = false;
-                if (region != null)
-                {
-                    ViewData["region"] = region;
-                    if (region == "All")
+                    ViewData["searchActive"] = false;
+                    if (region != null)
                     {
+                        ViewData["region"] = region;
+                        if (region == "All")
+                        {
+                            return View(allCountries.ToPagedList(pageNumber, countryListSize));
+                        }
+                        else
+                        {
+                            var regionCountries = allCountries.Where(c => c.region == region);
+                            return View(regionCountries.ToPagedList(pageNumber, countryListSize));
+                        }
+                    }
+                    else
+                    {
+
                         return View(allCountries.ToPagedList(pageNumber, countryListSize));
                     }
-                    else
-                    {
-                        var regionCountries = allCountries.Where(c => c.region == region);
-                        return View(regionCountries.ToPagedList(pageNumber, countryListSize));
-                    }
-                }
-                else
-                {
 
-                    return View(allCountries.ToPagedList(pageNumber, countryListSize));
                 }
 
             }
-
-
-
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ViewBag.errorMessage = "an error occured fetching countries, please make sure you have an internet connection. If the issue persist, contact the system developer";
+                return View();
+            }
         }
-
 
         [HttpGet]
         public IActionResult Details(string id)
         {
-            var country = _countryService.GetCountry(id);
+            try
+            {
+                var country = _countryService.GetCountry(id);
 
-            if (country != null)
-            {
-                return View(country);
+                if (country != null)
+                {
+                    return View(country);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch(Exception e)
             {
-                return NotFound();
+                Console.WriteLine(e.Message);
+                ViewBag.errorMessage = "an error occured fetching a country, please make sure you have an internet connection. If the issue persist, contact the system developer";
+                return View();
             }
+            
 
         }
 

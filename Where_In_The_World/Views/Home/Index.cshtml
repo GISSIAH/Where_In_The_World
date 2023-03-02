@@ -9,142 +9,147 @@
 
 }
 
-<div class="flex flex-col gap-4 lg:flex-row">
-    <div class="flex flex-col gap-1 lg:w-2/6 xl:w-1/6">
-        <form method="get" asp-action="Index" class="flex flex-col gap-2 mt-2 p-4">
-            <p class="text-md font-semibold  text-gray-700 dark:text-white">
-                Search Country
-            </p>
-            <div class="flex flex-row gap-1">
-                @Html.Hidden("region", ViewData["region"])
-                <input type="search" name="countrySearch" value="@ViewData["countrySearch"]" class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Malawi" />
 
-                @if (ViewData["searchActive"] is bool searchActive)
-                {
-                    @if(searchActive){
-                        <button class="bg-red-500 text-white text-center rounded-md px-3 py-1 hover:bg-red-400 cursor-pointer"><a asp-action="Index">Clear</a></button>
+@if(Model != null){
+    <div class="flex flex-col gap-4 lg:flex-row">
+        <div class="flex flex-col gap-1 lg:w-2/6 xl:w-1/6">
+            <form method="get" asp-action="Index" class="flex flex-col gap-2 mt-2 p-4">
+                <p class="text-md font-semibold  text-gray-700 dark:text-white">
+                    Search Country
+                </p>
+                <div class="flex flex-row gap-1">
+                    @Html.Hidden("region", ViewData["region"])
+                    <input type="search" name="countrySearch" value="@ViewData["countrySearch"]" class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Malawi" />
 
-                    }
-                    else
+                    @if (ViewData["searchActive"] is bool searchActive)
                     {
-                        <button type="submit" class="bg-blue-400 text-white rounded-md px-3 py-1 hover:bg-blue-500 cursor-pointer">Search</button>
-                    }
-                }
-                
+                        @if (searchActive)
+                        {
+                            <button class="bg-red-500 text-white text-center rounded-md px-3 py-1 hover:bg-red-400 cursor-pointer"><a href="@Url.Action("Index", "Home")">Clear</a></button>
 
-            </div>
-        </form>
-
-        <form asp-action="Index" method="get" class="flex flex-col gap-1 p-4">
-            @Html.Hidden("countrySearch", ViewData["countrySearch"])
-
-            <p class="text-md font-semibold  text-gray-700 dark:text-white">Filter By Region</p>
-            <div class="flex gap-2">
-
-                <select name="region" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-72 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                   
-                    @if ((ViewData["region"] ?? "").ToString() == "All")
-                    {
-                        <option value="All" selected>All</option>
-                    }
-                    else
-                    {
-                        <option value="All">All</option>
-                    }
-
-                    @if ((ViewData["region"] ?? "").ToString() == "Africa")
-                    {
-                        <option value="Africa" selected>Africa</option>
-                    }
-                    else
-                    {
-                        <option value="Africa">Africa</option>
-                    }
-
-                    @if ((ViewData["region"] ?? "").ToString() == "Americas")
-                    {
-                        <option value="Americas" selected>Americas</option>
-                    }
-                    else
-                    {
-                        <option value="Americas">Americas</option>
-                    }
-
-                    @if ((ViewData["region"] ?? "").ToString() == "Asia")
-                    {
-                        <option value="Asia" selected>Asia</option>
-                    }
-                    else
-                    {
-                        <option value="Asia">Asia</option>
-                    }
-
-                    @if ((ViewData["region"] ?? "").ToString() == "Europe")
-                    {
-                        <option value="Europe" selected>Europe</option>
-                    }
-                    else
-                    {
-                        <option value="Europe">Europe</option>
-                    }
-
-                    @if ((ViewData["region"] ?? "").ToString() == "Oceania")
-                    {
-                        <option value="Oceania" selected>Oceania</option>
-                    }
-                    else
-                    {
-                        <option value="Oceania">Oceania</option>
-                    }
-
-                </select>
-                <button type="submit" class="border border-blue-400 rounded-md px-3 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer dark:text-white">Apply</button>
-            </div>
-
-        </form>
-
-
-    </div>
-    
-    <div class=" lg:w-4/6 xl:w-5/6">
-        <div class="p-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-            @foreach (var country in Model)
-            {
-                <a asp-controller="Home" asp-action="Details" asp-route-id="@country.name.official" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                    <div class="flex flex-col gap-1">
-                        @if(country.flags != null){
-                            <img class="h-36 w-full" src="@country.flags["png"]" />
                         }
-                        <div class="flex flex-col gap-1">
-                            <div class="flex flex-col">
-                                <p class="text-xl  text-gray-900 dark:text-white flex flex-row">
-                                    Capitals 
-                                </p>
-                                <ul class="grid grid-col-2">
-                                    @if(country.capital != null){
-                                        @foreach (var capital in country.capital)
-                                        {
-                                            <p class="text-lg font-light  text-gray-900 dark:text-white">*@Html.DisplayFor(capitalItem=>capital)</p>
-                                        }
-                                    }    
-                                </ul>
-                            </div>
-                            <p class="text-lg  text-gray-900 dark:text-white">
-                                Region:
-                                <span>@Html.DisplayFor(modelItem=> country.region)</span>
-                            </p>
-                            <p class="text-lg  text-gray-900 dark:text-white">
-                                Population:
-                                <span>@country.population.ToString("n0")</span>
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            }
+                        else
+                        {
+                            <button type="submit" class="bg-blue-400 text-white rounded-md px-3 py-1 hover:bg-blue-500 cursor-pointer">Search</button>
+                        }
+                    }
+
+
+                </div>
+            </form>
+
+            <form asp-action="Index" method="get" class="flex flex-col gap-1 p-4">
+                @Html.Hidden("countrySearch", ViewData["countrySearch"])
+
+                <p class="text-md font-semibold  text-gray-700 dark:text-white">Filter By Region</p>
+                <div class="flex gap-2">
+
+                    <select name="region" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-72 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                        @if ((ViewData["region"] ?? "").ToString() == "All")
+                        {
+                            <option value="All" selected>All</option>
+                        }
+                        else
+                        {
+                            <option value="All">All</option>
+                        }
+
+                        @if ((ViewData["region"] ?? "").ToString() == "Africa")
+                        {
+                            <option value="Africa" selected>Africa</option>
+                        }
+                        else
+                        {
+                            <option value="Africa">Africa</option>
+                        }
+
+                        @if ((ViewData["region"] ?? "").ToString() == "Americas")
+                        {
+                            <option value="Americas" selected>Americas</option>
+                        }
+                        else
+                        {
+                            <option value="Americas">Americas</option>
+                        }
+
+                        @if ((ViewData["region"] ?? "").ToString() == "Asia")
+                        {
+                            <option value="Asia" selected>Asia</option>
+                        }
+                        else
+                        {
+                            <option value="Asia">Asia</option>
+                        }
+
+                        @if ((ViewData["region"] ?? "").ToString() == "Europe")
+                        {
+                            <option value="Europe" selected>Europe</option>
+                        }
+                        else
+                        {
+                            <option value="Europe">Europe</option>
+                        }
+
+                        @if ((ViewData["region"] ?? "").ToString() == "Oceania")
+                        {
+                            <option value="Oceania" selected>Oceania</option>
+                        }
+                        else
+                        {
+                            <option value="Oceania">Oceania</option>
+                        }
+
+                    </select>
+                    <button type="submit" class="border border-blue-400 rounded-md px-3 py-1 hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer dark:text-white">Apply</button>
+                </div>
+
+            </form>
+
+
         </div>
 
-        <div class="flex flex-row gap-2 justify-center">
-            @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {page = page,countrySearch=ViewData["countrySearch"], region=ViewData["region"]}), new X.PagedList.Web.Common.PagedListRenderOptions {
+        <div class=" lg:w-4/6 xl:w-5/6">
+            <div class="p-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+                @foreach (var country in Model)
+                {
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@country.name.official" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                        <div class="flex flex-col gap-1">
+                            @if (country.flags != null)
+                            {
+                                <img class="h-36 w-full" src="@country.flags["png"]" />
+                            }
+                            <div class="flex flex-col gap-1">
+                                <div class="flex flex-col">
+                                    <p class="text-xl  text-gray-900 dark:text-white flex flex-row">
+                                        Capitals
+                                    </p>
+                                    <ul class="grid grid-col-2">
+                                        @if (country.capital != null)
+                                        {
+                                            @foreach (var capital in country.capital)
+                                            {
+                                                <p class="text-lg font-light  text-gray-900 dark:text-white">*@Html.DisplayFor(capitalItem=>capital)</p>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                                <p class="text-lg  text-gray-900 dark:text-white">
+                                    Region:
+                                    <span>@Html.DisplayFor(modelItem=> country.region)</span>
+                                </p>
+                                <p class="text-lg  text-gray-900 dark:text-white">
+                                    Population:
+                                    <span>@country.population.ToString("n0")</span>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+
+            <div class="flex flex-row gap-2 justify-center">
+                @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {page = page,countrySearch=ViewData["countrySearch"], region=ViewData["region"]}), new X.PagedList.Web.Common.PagedListRenderOptions {
             LiElementClasses = new string[] {"px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"},
             ContainerDivClasses = new string[]{"flex justify-center"},
             ActiveLiElementClass = "px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white",
@@ -157,11 +162,19 @@
             DisplayLinkToIndividualPages= false,
             DisplayPageCountAndCurrentLocation= true
             })
+            </div>
+
         </div>
 
+
     </div>
+
+
+}
+else{
+    <div class="flex justify-center">
+        <p class="m-4 text-lg text-center text-gray-800 dark:text-white md:w-2/3">@ViewBag.errorMessage</p>
+    </div>
+}
+
     
-
-</div>
-
-         
