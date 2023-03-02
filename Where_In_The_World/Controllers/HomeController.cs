@@ -30,7 +30,6 @@ namespace Where_In_The_World.Controllers
                 ViewData["countrySearch"] = countrySearch;
                 ViewData["searchActive"] = true;
                 var searchCountries = _countryService.SearchCountries(countrySearch);
-
                 if (region != null)
                 {
                     ViewData["region"] = region;
