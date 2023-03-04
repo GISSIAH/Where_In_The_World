@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CountryModel>
+﻿@model IEnumerable<Country>
 @using X.PagedList;
 @using X.PagedList.Mvc.Core;
 
@@ -19,7 +19,7 @@
                 </p>
                 <div class="flex flex-row gap-1">
                     @Html.Hidden("region", ViewData["region"])
-                    <input type="search" name="countrySearch" value="@ViewData["countrySearch"]" class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Malawi" />
+                    <input type="search" name="countrySearch" value="@ViewData["countrySearch"]" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 lg:w-72" placeholder="Malawi" />
 
                     @if (ViewData["searchActive"] is bool searchActive)
                     {
@@ -44,7 +44,7 @@
                 <p class="text-md font-semibold  text-gray-700 dark:text-white">Filter By Region</p>
                 <div class="flex gap-2">
 
-                    <select name="region" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-72 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select name="region" class="w-full bg-gray-50 border border-gray-300 lg:w-72 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                         @if ((ViewData["region"] ?? "").ToString() == "All")
                         {
@@ -113,7 +113,7 @@
             <div class="p-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 @foreach (var country in Model)
                 {
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@country.name.official" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@country.name.official" class="block p-6 border border-gray-200 rounded-lg shadow hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                         <div class="flex flex-col gap-1">
                             @if (country.flags != null)
                             {

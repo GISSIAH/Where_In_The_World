@@ -22,7 +22,7 @@ namespace Where_In_The_World.Controllers
 
             
             int countryListSize = 8;
-            int pageNumber = (page ?? 1);
+            int pageNumber = page ?? 1;
 
             try
             {

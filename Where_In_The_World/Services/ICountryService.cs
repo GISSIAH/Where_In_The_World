@@ -4,10 +4,10 @@ namespace Where_In_The_World.Services
 {
     public interface ICountryService
     {
-        List<CountryModel> GetCountries();
+        List<Country> GetCountries();
 
-        List<CountryModel> SearchCountries(string name);
+        List<Country> SearchCountries(string name);
 
-        ExtendedCountryModel? GetCountry(string name);
+        ExtendedCountry? GetCountry(string name);
     }
 }
