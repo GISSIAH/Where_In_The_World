@@ -7,7 +7,8 @@ The project is built on .NET 6 and uses Tailwind CSS for the UI.
 - Node JS has to be installed on the system to install Tailwind CSS.
 
 # Setup 
-Firstly install the Tailwind CSS node modules by running the command below in the folder that contains the package.json file:
+Firstly install the Tailwind CSS node modules by running the command below in the folder that contains the package.json file: 
+    
     ```npm run install
     ```
 
