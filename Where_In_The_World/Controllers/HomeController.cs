@@ -79,7 +79,7 @@ namespace Where_In_The_World.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
+                _logger.LogError(e.Message);
                 ViewBag.errorMessage = "an error occured fetching countries, please make sure you have an internet connection. If the issue persist, contact the system developer";
                 return View();
             }
@@ -103,7 +103,7 @@ namespace Where_In_The_World.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
+                _logger.LogError(e.Message);
                 ViewBag.errorMessage = "an error occured fetching a country, please make sure you have an internet connection. If the issue persist, contact the system developer";
                 return View();
             }
