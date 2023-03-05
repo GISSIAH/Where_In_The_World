@@ -121,18 +121,15 @@
                             }
                             <div class="flex flex-col gap-1">
                                 <div class="flex flex-col">
-                                    <p class="text-xl  text-gray-900 dark:text-white flex flex-row">
-                                        Capitals
-                                    </p>
-                                    <ul class="grid grid-col-2">
+                                    
+                                    <div class="flex">
                                         @if (country.capital != null)
                                         {
-                                            @foreach (var capital in country.capital)
-                                            {
-                                                <p class="text-lg font-light  text-gray-900 dark:text-white">*@Html.DisplayFor(capitalItem=>capital)</p>
-                                            }
+                                            <p class="text-xl  text-gray-900 dark:text-white flex flex-row">
+                                                Capital: @country.capital.FirstOrDefault()
+                                            </p>      
                                         }
-                                    </ul>
+                                    </div>
                                 </div>
                                 <p class="text-lg  text-gray-900 dark:text-white">
                                     Region:
